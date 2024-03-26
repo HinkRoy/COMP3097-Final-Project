@@ -63,7 +63,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor.lightGray
+        headerView.backgroundColor = UIColor(hex: "#ccddfd")!
 
         let headerLabel = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.bounds.size.width, height: 40))
         headerLabel.font = UIFont.boldSystemFont(ofSize: 20)

@@ -32,10 +32,13 @@ class TaskTableViewCell: UITableViewCell {
         descriptionLabel.font = .systemFont(ofSize: 14)
         descriptionLabel.textColor = .gray
         
+        categoriesLabel.font = .systemFont(ofSize: 12)
+        categoriesLabel.textColor = .blue
+        
         deadlineLabel.font = .systemFont(ofSize: 14)
         deadlineLabel.textColor = .red
         
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel, deadlineLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel, categoriesLabel, deadlineLabel])
         stackView.axis = .vertical
         stackView.spacing = 4
         contentView.addSubview(stackView)
@@ -48,4 +51,12 @@ class TaskTableViewCell: UITableViewCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
         ])
     }
+
+//    func configure(with task: Task) {
+//        titleLabel.text = task.title
+//        descriptionLabel.text = task.description
+//        categoriesLabel.text = task.categories.joined(separator: ", ")
+//        deadlineLabel.text = "Deadline: \(task.deadlineFormatted)" 
+//    }
 }
+

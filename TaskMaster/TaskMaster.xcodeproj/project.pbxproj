@@ -16,6 +16,7 @@
 		FDC01FD92B8CF336000CA7B1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FD82B8CF336000CA7B1 /* HomeViewController.swift */; };
 		FDC01FDB2B8D7383000CA7B1 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FDA2B8D7383000CA7B1 /* TaskTableViewCell.swift */; };
 		FDC01FDD2B8D7876000CA7B1 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FDC2B8D7876000CA7B1 /* TaskDetailViewController.swift */; };
+		FDD59F352BB2685600363155 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD59F342BB2685600363155 /* TagCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		FDC01FD82B8CF336000CA7B1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FDC01FDA2B8D7383000CA7B1 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		FDC01FDC2B8D7876000CA7B1 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
+		FDD59F342BB2685600363155 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			children = (
 				FDC01FC12B8CEBB2000CA7B1 /* AppDelegate.swift */,
 				FDC01FC32B8CEBB2000CA7B1 /* SceneDelegate.swift */,
+				FDD59F342BB2685600363155 /* TagCollectionViewCell.swift */,
 				FDC01FDA2B8D7383000CA7B1 /* TaskTableViewCell.swift */,
 				FDC01FD82B8CF336000CA7B1 /* HomeViewController.swift */,
 				FDC01FDC2B8D7876000CA7B1 /* TaskDetailViewController.swift */,
@@ -150,6 +153,7 @@
 				FDC01FDD2B8D7876000CA7B1 /* TaskDetailViewController.swift in Sources */,
 				FDC01FDB2B8D7383000CA7B1 /* TaskTableViewCell.swift in Sources */,
 				FDC01FD92B8CF336000CA7B1 /* HomeViewController.swift in Sources */,
+				FDD59F352BB2685600363155 /* TagCollectionViewCell.swift in Sources */,
 				FDC01FC22B8CEBB2000CA7B1 /* AppDelegate.swift in Sources */,
 				FDC01FCC2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodeld in Sources */,
 				FDC01FC42B8CEBB2000CA7B1 /* SceneDelegate.swift in Sources */,
