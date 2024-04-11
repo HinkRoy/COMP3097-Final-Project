@@ -5,8 +5,8 @@
 //  Created by Heng Zhou on 2024/2/24.
 //
 
+import CoreData
 import UIKit
-
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     lazy var addButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -19,7 +19,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }()
 
     @IBOutlet var main_TableView: UITableView!
-    var tasks: [String] = ["Task 1", "Task 2", "Task 3"]
+    var tasks: [TaskInfo] = []
+    var todayTasks: [TaskInfo] = []
+    var thisWeekTasks: [TaskInfo] = []
+    var laterTasks: [TaskInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.addSubview(addButton)
         main_TableView.register(TaskTableViewCell.self, forCellReuseIdentifier: "TaskCell")
         setupAddButtonConstraints()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchTasks()
     }
 
     func setupAddButtonConstraints() {
@@ -44,15 +52,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         navigationController?.pushViewController(taskDetailVC, animated: true)
     }
 
+    func fetchTasks() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<TaskInfo>(entityName: "TaskInfo")
+
+        do {
+            tasks = try managedContext.fetch(fetchRequest)
+            categorizeTasks()
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        main_TableView.reloadData()
+    }
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return 1
-        case 1: return 2
-        case 2: return 3
+        case 0: return todayTasks.count
+        case 1: return thisWeekTasks.count
+        case 2: return laterTasks.count
         default: return 0
         }
     }
@@ -106,26 +128,112 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskTableViewCell
-//        let task: Task
-//        switch indexPath.section {
-//        case 0: task = todayTasks[indexPath.row]
-//        case 1: task = thisWeekTasks[indexPath.row]
-//        case 2: task = laterTasks[indexPath.row]
-//        default: fatalError("Unexpected section")
-//        }
-//        cell.titleLabel.text = task.title
-//        cell.descriptionLabel.text = task.description
-        cell.titleLabel.text = "Title information"
-        cell.descriptionLabel.text = "descriptive information"
-        cell.deadlineLabel.text = "Deadline: 2024-02-23"
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateStyle = .medium
-//        cell.deadlineLabel.text = "Deadline: \(dateFormatter.string(from: task.deadline))"
+        let task: TaskInfo
+        switch indexPath.section {
+        case 0: task = todayTasks[indexPath.row]
+        case 1: task = thisWeekTasks[indexPath.row]
+        case 2: task = laterTasks[indexPath.row]
+        default: fatalError("Unexpected section")
+        }
+
+        cell.titleLabel.text = task.title ?? "No Title"
+        cell.descriptionLabel.text = task.taskDescription ?? "No Description"
+        if let categoriesString = task.categories as? String {
+            let categoriesArray = categoriesString.split(separator: ",").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            cell.categoriesLabel.text = categoriesArray.joined(separator: ", ")
+        } else {
+            cell.categoriesLabel.text = "No Categories"
+        }
+        if let deadline = task.deadline {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            cell.deadlineLabel.text = "Deadline: \(dateFormatter.string(from: deadline))"
+        } else {
+            cell.deadlineLabel.text = "No Deadline"
+        }
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task: TaskInfo
+        switch indexPath.section {
+        case 0: task = todayTasks[indexPath.row]
+        case 1: task = thisWeekTasks[indexPath.row]
+        case 2: task = laterTasks[indexPath.row]
+        default: fatalError("Unexpected section")
+        }
         let taskDetailVC = TaskDetailViewController()
+        taskDetailVC.task = task
         navigationController?.pushViewController(taskDetailVC, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let taskToDelete = taskForIndexPath(indexPath)
+            deleteTask(taskToDelete, at: indexPath)
+        }
+    }
+
+    func taskForIndexPath(_ indexPath: IndexPath) -> TaskInfo {
+        switch indexPath.section {
+        case 0: return todayTasks[indexPath.row]
+        case 1: return thisWeekTasks[indexPath.row]
+        case 2: return laterTasks[indexPath.row]
+        default: fatalError("Unexpected section")
+        }
+    }
+
+    func deleteTask(_ task: TaskInfo, at indexPath: IndexPath) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext.delete(task)
+        switch indexPath.section {
+        case 0:
+            todayTasks.remove(at: indexPath.row)
+        case 1:
+            thisWeekTasks.remove(at: indexPath.row)
+        case 2:
+            laterTasks.remove(at: indexPath.row)
+        default:
+            fatalError("Unexpected section")
+        }
+
+        do {
+            try managedContext.save()
+            main_TableView.deleteRows(at: [indexPath], with: .fade)
+        } catch let error as NSError {
+            print("Could not save after delete: \(error), \(error.userInfo)")
+            main_TableView.reloadData()
+        }
+    }
+}
+
+extension HomeViewController {
+    func categorizeTasks() {
+        let now = Date()
+        let calendar = Calendar.current
+
+        todayTasks.removeAll()
+        thisWeekTasks.removeAll()
+        laterTasks.removeAll()
+
+        for task in tasks {
+            guard let deadline = task.deadline else {
+                laterTasks.append(task)
+                continue
+            }
+
+            if calendar.isDateInToday(deadline) {
+                todayTasks.append(task)
+            } else if calendar.isDate(deadline, equalTo: now, toGranularity: .weekOfYear) {
+                thisWeekTasks.append(task)
+            } else {
+                laterTasks.append(task)
+            }
+        }
     }
 }

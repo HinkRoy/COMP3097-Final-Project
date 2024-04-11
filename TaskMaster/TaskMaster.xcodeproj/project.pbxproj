@@ -7,30 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD07D8FA2BC4FB94009D8CED /* TaskMaster.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FD07D8F82BC4FB94009D8CED /* TaskMaster.xcdatamodeld */; };
 		FDC01FC22B8CEBB2000CA7B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FC12B8CEBB2000CA7B1 /* AppDelegate.swift */; };
 		FDC01FC42B8CEBB2000CA7B1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FC32B8CEBB2000CA7B1 /* SceneDelegate.swift */; };
 		FDC01FC92B8CEBB2000CA7B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDC01FC72B8CEBB2000CA7B1 /* Main.storyboard */; };
-		FDC01FCC2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FCA2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodeld */; };
 		FDC01FCE2B8CEBB3000CA7B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDC01FCD2B8CEBB3000CA7B1 /* Assets.xcassets */; };
 		FDC01FD12B8CEBB3000CA7B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDC01FCF2B8CEBB3000CA7B1 /* LaunchScreen.storyboard */; };
 		FDC01FD92B8CF336000CA7B1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FD82B8CF336000CA7B1 /* HomeViewController.swift */; };
 		FDC01FDB2B8D7383000CA7B1 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FDA2B8D7383000CA7B1 /* TaskTableViewCell.swift */; };
 		FDC01FDD2B8D7876000CA7B1 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC01FDC2B8D7876000CA7B1 /* TaskDetailViewController.swift */; };
+		FDD258E82BC6EB5600C2FFD8 /* CategoriesTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD258E72BC6EB5600C2FFD8 /* CategoriesTransformer.swift */; };
 		FDD59F352BB2685600363155 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD59F342BB2685600363155 /* TagCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD07D8F92BC4FB94009D8CED /* TaskMaster.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskMaster.xcdatamodel; sourceTree = "<group>"; };
 		FDC01FBE2B8CEBB2000CA7B1 /* TaskMaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskMaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC01FC12B8CEBB2000CA7B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDC01FC32B8CEBB2000CA7B1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FDC01FC82B8CEBB2000CA7B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FDC01FCB2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskMaster.xcdatamodel; sourceTree = "<group>"; };
 		FDC01FCD2B8CEBB3000CA7B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDC01FD02B8CEBB3000CA7B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FDC01FD22B8CEBB3000CA7B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDC01FD82B8CF336000CA7B1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FDC01FDA2B8D7383000CA7B1 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		FDC01FDC2B8D7876000CA7B1 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
+		FDD258E72BC6EB5600C2FFD8 /* CategoriesTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTransformer.swift; sourceTree = "<group>"; };
 		FDD59F342BB2685600363155 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,16 +67,17 @@
 			isa = PBXGroup;
 			children = (
 				FDC01FC12B8CEBB2000CA7B1 /* AppDelegate.swift */,
+				FDD258E72BC6EB5600C2FFD8 /* CategoriesTransformer.swift */,
 				FDC01FC32B8CEBB2000CA7B1 /* SceneDelegate.swift */,
 				FDD59F342BB2685600363155 /* TagCollectionViewCell.swift */,
 				FDC01FDA2B8D7383000CA7B1 /* TaskTableViewCell.swift */,
 				FDC01FD82B8CF336000CA7B1 /* HomeViewController.swift */,
 				FDC01FDC2B8D7876000CA7B1 /* TaskDetailViewController.swift */,
+				FD07D8F82BC4FB94009D8CED /* TaskMaster.xcdatamodeld */,
 				FDC01FC72B8CEBB2000CA7B1 /* Main.storyboard */,
 				FDC01FCD2B8CEBB3000CA7B1 /* Assets.xcassets */,
 				FDC01FCF2B8CEBB3000CA7B1 /* LaunchScreen.storyboard */,
 				FDC01FD22B8CEBB3000CA7B1 /* Info.plist */,
-				FDC01FCA2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodeld */,
 			);
 			path = TaskMaster;
 			sourceTree = "<group>";
@@ -151,12 +154,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDC01FDD2B8D7876000CA7B1 /* TaskDetailViewController.swift in Sources */,
+				FD07D8FA2BC4FB94009D8CED /* TaskMaster.xcdatamodeld in Sources */,
 				FDC01FDB2B8D7383000CA7B1 /* TaskTableViewCell.swift in Sources */,
 				FDC01FD92B8CF336000CA7B1 /* HomeViewController.swift in Sources */,
 				FDD59F352BB2685600363155 /* TagCollectionViewCell.swift in Sources */,
 				FDC01FC22B8CEBB2000CA7B1 /* AppDelegate.swift in Sources */,
-				FDC01FCC2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodeld in Sources */,
 				FDC01FC42B8CEBB2000CA7B1 /* SceneDelegate.swift in Sources */,
+				FDD258E82BC6EB5600C2FFD8 /* CategoriesTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,13 +393,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		FDC01FCA2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodeld */ = {
+		FD07D8F82BC4FB94009D8CED /* TaskMaster.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				FDC01FCB2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodel */,
+				FD07D8F92BC4FB94009D8CED /* TaskMaster.xcdatamodel */,
 			);
-			currentVersion = FDC01FCB2B8CEBB2000CA7B1 /* TaskMaster.xcdatamodel */;
-			path = TaskMaster.xcdatamodeld;
+			currentVersion = FD07D8F92BC4FB94009D8CED /* TaskMaster.xcdatamodel */;
+			name = TaskMaster.xcdatamodeld;
+			path = "/Users/jiandan/Desktop/COMP3097-Final-Project/TaskMaster/TaskMaster/TaskMaster.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

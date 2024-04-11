@@ -5,9 +5,10 @@
 //  Created by Heng Zhou on 2024/2/24.
 //
 
+import CoreData
 import UIKit
 
-class TaskDetailViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class TaskDetailViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate {
     let scrollView = UIScrollView()
     let contentView = UIView()
 
@@ -27,12 +28,30 @@ class TaskDetailViewController: UIViewController, UICollectionViewDelegate, UICo
     var selectedTags = Set<String>()
 
     let saveButton = UIButton(type: .system)
+    var task: TaskInfo?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Task Detail"
         setupViews()
+        if let task = task {
+            titleTextField.text = task.title
+            if let description = task.taskDescription, !description.isEmpty {
+                descriptionTextView.text = description
+            } else {
+                descriptionTextView.text = "Enter Task Description"
+                descriptionTextView.textColor = UIColor.lightGray
+            }
+            deadlinePicker.date = task.deadline ?? Date()
+            if let categories = task.categories as? String {
+                selectedTags = Set(categories.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) })
+            }
+            tagsCollectionView.reloadData()
+        } else {
+            descriptionTextView.text = "Enter Task Description"
+            descriptionTextView.textColor = UIColor.lightGray
+        }
     }
 
     func setupViews() {
@@ -87,6 +106,7 @@ extension TaskDetailViewController {
         descriptionTextView.layer.borderColor = UIColor.gray.cgColor
         descriptionTextView.layer.borderWidth = 1.0
         descriptionTextView.layer.cornerRadius = 5.0
+        descriptionTextView.delegate = self
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(descriptionTextView)
 
@@ -107,13 +127,12 @@ extension TaskDetailViewController {
         deadlineStackView.addArrangedSubview(deadlinePicker)
 
         contentView.addSubview(deadlineStackView)
-        
+
         tagsLabel.text = "Tags"
         tagsLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(tagsLabel)
 
         NSLayoutConstraint.activate([
-
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -134,7 +153,7 @@ extension TaskDetailViewController {
             deadlineStackView.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
             deadlineStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             deadlineStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
+
             tagsLabel.topAnchor.constraint(equalTo: deadlineStackView.bottomAnchor, constant: 20),
             tagsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             tagsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -217,6 +236,93 @@ extension TaskDetailViewController {
     }
 
     @objc func saveButtonTapped() {
-        print("Save Data")
+        let title = titleTextField.text ?? ""
+        var description = descriptionTextView.text ?? ""
+        let deadline = deadlinePicker.date
+        let categories = selectedTags.joined(separator: ", ")
+        if description == "Enter Task Description" {
+            description = ""
+        }
+
+        if let task = task {
+            updateTaskInfo(task: task, title: title, description: description, deadline: deadline, categories: categories)
+        } else {
+            saveTaskInfo(title: title, description: description, deadline: deadline, categories: categories)
+        }
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+extension TaskDetailViewController {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Enter Task Description" {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Enter Task Description"
+            textView.textColor = UIColor.lightGray
+        }
+    }
+}
+
+extension TaskDetailViewController {
+    func saveTaskInfo(title: String, description: String, deadline: Date, categories: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "TaskInfo", in: managedContext)!
+        let task = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        task.setValue(title, forKey: "title")
+        task.setValue(description, forKeyPath: "taskDescription")
+        task.setValue(deadline, forKey: "deadline")
+        task.setValue(categories, forKey: "categories")
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+
+    func fetchTaskInfo() -> [NSManagedObject] {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return [] }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TaskInfo")
+
+        do {
+            let tasks = try managedContext.fetch(fetchRequest)
+            return tasks
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return []
+        }
+    }
+
+    func updateTaskInfo(task: NSManagedObject, title: String?, description: String?, deadline: Date?, categories: String?) {
+        if let title = title {
+            task.setValue(title, forKey: "title")
+        }
+        if let description = description {
+            task.setValue(description, forKey: "taskDescription")
+        }
+        if let deadline = deadline {
+            task.setValue(deadline, forKey: "deadline")
+        }
+        if let categories = categories {
+            task.setValue(categories, forKey: "categories")
+        }
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+
+        do {
+            try managedContext.save()
+            print("Update successful")
+        } catch let error as NSError {
+            print("Could not update. \(error), \(error.userInfo)")
+        }
     }
 }

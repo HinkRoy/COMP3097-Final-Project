@@ -33,6 +33,7 @@ class TaskTableViewCell: UITableViewCell {
         descriptionLabel.textColor = .gray
         
         categoriesLabel.font = .systemFont(ofSize: 12)
+        categoriesLabel.numberOfLines = 0
         categoriesLabel.textColor = .blue
         
         deadlineLabel.font = .systemFont(ofSize: 14)
